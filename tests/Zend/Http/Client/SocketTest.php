@@ -19,6 +19,8 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 require_once dirname(__FILE__) . '/CommonHttpTests.php';
 
@@ -40,9 +42,9 @@ require_once dirname(__FILE__) . '/CommonHttpTests.php';
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Client
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_Client')]
 class Zend_Http_Client_SocketTest extends Zend_Http_Client_CommonHttpTests
 {
     /**
@@ -60,6 +62,7 @@ class Zend_Http_Client_SocketTest extends Zend_Http_Client_CommonHttpTests
             $this->markTestSkipped('Zend_Http_Client dynamic tests are not enabled in TestConfiguration.php');
             return;
         }
+        parent::setUp();
     }
 
     /**
@@ -68,8 +71,8 @@ class Zend_Http_Client_SocketTest extends Zend_Http_Client_CommonHttpTests
 
     /**
      * Test that we can set a valid configuration array with some options
-     * @group ZHC001
      */
+    #[Group('ZHC001')]
     public function testConfigSetAsArray()
     {
         $config = array(
@@ -111,8 +114,8 @@ class Zend_Http_Client_SocketTest extends Zend_Http_Client_CommonHttpTests
     /**
      * Check that an exception is thrown when trying to set invalid config
      *
-     * @dataProvider invalidConfigProvider
      */
+    #[DataProvider('invalidConfigProvider')]
     public function testSetConfigInvalidConfig($config)
     {
         $this->expectException(\Zend_Http_Client_Adapter_Exception::class);
@@ -163,8 +166,8 @@ class Zend_Http_Client_SocketTest extends Zend_Http_Client_CommonHttpTests
     /**
      * Test that setting invalid options / context causes an exception
      *
-     * @dataProvider      invalidContextProvider
      */
+    #[DataProvider('invalidContextProvider')]
     public function testSetInvalidContextOptions($invalid)
     {
         $this->expectException(\Zend_Http_Client_Adapter_Exception::class);

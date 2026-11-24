@@ -19,6 +19,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
+use PHPUnit\Framework\Attributes\Group;
 
 require_once dirname(__FILE__) . '/SocketTest.php';
 
@@ -40,9 +41,9 @@ require_once dirname(__FILE__) . '/SocketTest.php';
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Client
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_Client')]
 class Zend_Http_Client_SocketPersistentTest extends Zend_Http_Client_SocketTest
 {
     /**
@@ -62,5 +63,6 @@ class Zend_Http_Client_SocketPersistentTest extends Zend_Http_Client_SocketTest
             $this->markTestSkipped('Zend_Http_Client dynamic tests are not enabled in TestConfiguration.php');
             return;
         }
+        parent::setUp();
     }
 }

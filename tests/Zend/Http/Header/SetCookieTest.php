@@ -20,7 +20,8 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Zend_Http_Cookie unit tests
@@ -30,15 +31,13 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Header
- * @group      ZF-4520
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_Header')]
+#[Group('ZF-4520')]
 class Zend_Http_Header_SetCookieTest extends PHPUnit\Framework\TestCase
 {
-    /**
-     * @group ZF2-254
-     */
+    #[Group('ZF2-254')]
     public function testSetCookieConstructor()
     {
         $setCookieHeader = new Zend_Http_Header_SetCookie(
@@ -197,9 +196,7 @@ class Zend_Http_Header_SetCookieTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('Set-Cookie', $c->getFieldName());
     }
 
-    /**
-     * @dataProvider validCookieWithInfoProvider
-     */
+    #[DataProvider('validCookieWithInfoProvider')]
     public function testGetFieldValue($cStr, $info, $expected)
     {
         $cookie = Zend_Http_Header_SetCookie::fromString($cStr);
@@ -210,9 +207,7 @@ class Zend_Http_Header_SetCookieTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($cookie->getFieldName() . ': ' . $expected, (string)$cookie);
     }
 
-    /**
-     * @dataProvider validCookieWithInfoProvider
-     */
+    #[DataProvider('validCookieWithInfoProvider')]
     public function testToString($cStr, $info, $expected)
     {
         $cookie = Zend_Http_Header_SetCookie::fromString($cStr);
@@ -222,9 +217,7 @@ class Zend_Http_Header_SetCookieTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($cookie->getFieldName() . ': ' . $expected, $cookie->toString());
     }
 
-    /**
-     * @dataProvider validCookieWithInfoProvider
-     */
+    #[DataProvider('validCookieWithInfoProvider')]
     public function testAddingAsRawHeaderToResponseObject($cStr, $info, $expected)
     {
         if (!defined('TESTS_ZEND_HTTP_ZF1_FULL_SUITE') || TESTS_ZEND_HTTP_ZF1_FULL_SUITE !== true) {
@@ -237,9 +230,7 @@ class Zend_Http_Header_SetCookieTest extends PHPUnit\Framework\TestCase
         $this->assertContains((string)$cookie, $response->sendHeaders());
     }
 
-    /**
-     * @group GH-295
-     */
+    #[Group('GH-295')]
     public function testMultipleCookies()
     {
         if (!defined('TESTS_ZEND_HTTP_ZF1_FULL_SUITE') || TESTS_ZEND_HTTP_ZF1_FULL_SUITE !== true) {
@@ -385,10 +376,8 @@ class Zend_Http_Header_SetCookieTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @group ZF2015-04
-     * @dataProvider invalidCookieComponentValues
-     */
+    #[Group('ZF2015-04')]
+    #[DataProvider('invalidCookieComponentValues')]
     public function testDoesNotAllowCRLFAttackVectorsViaSetters($setter, $value)
     {
         $cookie = new Zend_Http_Header_SetCookie();

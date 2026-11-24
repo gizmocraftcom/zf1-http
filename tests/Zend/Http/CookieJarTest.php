@@ -19,7 +19,8 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Zend_Http_CookieJar unit tests
@@ -29,9 +30,9 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_CookieJar
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_CookieJar')]
 class Zend_Http_CookieJarTest extends PHPUnit\Framework\TestCase
 {
     public function loadResponse($filename)
@@ -109,8 +110,8 @@ class Zend_Http_CookieJarTest extends PHPUnit\Framework\TestCase
     /**
      * Test we get an exception in case of invalid response objects
      *
-     * @dataProvider invalidResponseProvider
      */
+    #[DataProvider('invalidResponseProvider')]
     public function testExceptAddCookiesInvalidResponse($resp)
     {
         $this->expectException(\Zend_Http_Exception::class);
@@ -180,8 +181,8 @@ class Zend_Http_CookieJarTest extends PHPUnit\Framework\TestCase
 
     /**
      * Test we can get all cookies as a concatenated string
-     * @group ZF-11726
      */
+    #[Group('ZF-11726')]
     public function testGetAllCookiesAsConcatStrictMode()
     {
         $jar = new Zend_Http_CookieJar();
@@ -299,8 +300,8 @@ class Zend_Http_CookieJarTest extends PHPUnit\Framework\TestCase
     /**
      * Test we can get all matching cookies for a request, with session cookies
      *
-     * @dataProvider cookieMatchTestProvider
      */
+    #[DataProvider('cookieMatchTestProvider')]
     public function testGetMatchingCookies($url, $expected)
     {
         $jar     = new Zend_Http_CookieJar();

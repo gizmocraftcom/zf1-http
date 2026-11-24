@@ -19,6 +19,8 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Group;
 
 require_once dirname(__FILE__) . '/SocketTest.php';
 
@@ -35,9 +37,9 @@ require_once dirname(__FILE__) . '/SocketTest.php';
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Client
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_Client')]
 class Zend_Http_Client_ProxyAdapterTest extends Zend_Http_Client_SocketTest
 {
     /**
@@ -112,6 +114,7 @@ class Zend_Http_Client_ProxyAdapterTest extends Zend_Http_Client_SocketTest
         $this->assertEquals($this->client->getLastRequest(), $res->getBody(), 'Response body should be exactly like the last request');
     }
 
+    #[DoesNotPerformAssertions]
     public function testGetLastRequest()
     {
         /**
@@ -121,9 +124,7 @@ class Zend_Http_Client_ProxyAdapterTest extends Zend_Http_Client_SocketTest
          */
     }
 
-    /**
-     * @group ZF-3189
-     */
+    #[Group('ZF-3189')]
     public function testConnectHandshakeSendsCustomUserAgentHeader()
     {
         // Change the adapter
@@ -146,9 +147,7 @@ class Zend_Http_Client_ProxyAdapterTest extends Zend_Http_Client_SocketTest
         );
     }
 
-    /**
-     * @group ZF-3189
-     */
+    #[Group('ZF-3189')]
     public function testConnectHandshakeSendsCustomUserAgentHeaderWhenSetInHeaders()
     {
         // Change the adapter
@@ -164,16 +163,13 @@ class Zend_Http_Client_ProxyAdapterTest extends Zend_Http_Client_SocketTest
 
         // Perform the request
         $this->client->request();
-        print_r($this->client->getAdapter()->getLastConnectHandshakeRequest());
         $this->assertMatchesRegularExpression(
             "/\r\nUser-Agent: ZendTest\r\n/i",
             $this->client->getAdapter()->getLastConnectHandshakeRequest()
         );
     }
 
-    /**
-     * @group ZF-3189
-     */
+    #[Group('ZF-3189')]
     public function testProxyAdapterDoesNotOverwriteExistingProxyAuthorizationHeader()
     {
         // Change the adapter
@@ -189,7 +185,6 @@ class Zend_Http_Client_ProxyAdapterTest extends Zend_Http_Client_SocketTest
 
         // Perform the request
         $this->client->request();
-        print_r($this->client->getAdapter()->getLastConnectHandshakeRequest());
 
         $resp = $this->client->getAdapter()->getLastConnectHandshakeRequest();
         $this->assertEquals(1, preg_match_all('/\r\nProxy-Authorization: ([^\r\n]+)\r\n/i', $resp, $matches));

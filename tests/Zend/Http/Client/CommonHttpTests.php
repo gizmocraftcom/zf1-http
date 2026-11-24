@@ -19,7 +19,8 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * This Testsuite includes all Zend_Http_Client that require a working web
@@ -39,8 +40,6 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Client
  */
 abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCase
 {
@@ -88,10 +87,7 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
                 $this->baseuri .= '/';
             }
 
-            $name = $this->getName();
-            if (($pos = strpos($name, ' ')) !== false) {
-                $name = substr($name, 0, $pos);
-            }
+            $name = $this->name();
 
             $uri = $this->baseuri . $name . '.php';
 
@@ -161,8 +157,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
     /**
      * Test we can properly send GET parameters
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testGetData($params)
     {
         $this->client->setUri($this->client->getUri(true) . '?name=Arthur');
@@ -176,8 +172,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send POST parameters with
      * application/x-www-form-urlencoded content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testPostDataUrlEncoded($params)
     {
         $this->client->setUri($this->baseuri . 'testPostData.php');
@@ -191,8 +187,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send PUT parameters with
      * application/x-www-form-urlencoded content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testPutDataUrlEncoded($params)
     {
         $this->client->setUri($this->baseuri . 'testPutData.php');
@@ -206,8 +202,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send PUT parameters without
      * content type, relying on default content type (urlencoded)
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testPutDataDefault($params)
     {
         $this->client->setUri($this->baseuri . 'testPutData.php');
@@ -221,8 +217,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send PATCH parameters with
      * application/x-www-form-urlencoded content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testPatchDataUrlEncoded($params)
     {
         $this->client->setUri($this->baseuri . 'testPatchData.php');
@@ -236,8 +232,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send PATCH parameters without
      * content type, relying on default content type (urlencoded)
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testPatchDataDefault($params)
     {
         $this->client->setUri($this->baseuri . 'testPatchData.php');
@@ -251,8 +247,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send OPTIONS parameters with
      * application/x-www-form-urlencoded content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testOptionsDataUrlEncoded($params)
     {
         $this->client->setUri($this->baseuri . 'testOptionsData.php');
@@ -266,8 +262,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send OPTIONS parameters without
      * content type, relying on default content type (urlencoded)
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testOptionsDataDefault($params)
     {
         $this->client->setUri($this->baseuri . 'testOptionsData.php');
@@ -281,8 +277,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send parameters with
      * application/x-www-form-urlencoded content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testDeleteDataUrlEncoded($params)
     {
         $this->client->setUri($this->baseuri . 'testDeleteData.php');
@@ -296,8 +292,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send POST parameters with
      * multipart/form-data content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testPostDataMultipart($params)
     {
         $this->client->setUri($this->baseuri . 'testPostData.php');
@@ -311,8 +307,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send PUT parameters with
      * multipart/form-data content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testPutDataMultipart($params)
     {
         $this->client->setUri($this->baseuri . 'testRawPutData.php');
@@ -328,8 +324,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send PATCH parameters with
      * multipart/form-data content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testPatchDataMultipart($params)
     {
         $this->client->setUri($this->baseuri . 'testRawPatchData.php');
@@ -345,8 +341,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send OPTIONS parameters with
      * multipart/form-data content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testOptionsDataMultipart($params)
     {
         $this->client->setUri($this->baseuri . 'testRawOptionsData.php');
@@ -422,8 +418,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
      * Test we can properly send DELETE parameters with
      * multipart/form-data content type
      *
-     * @dataProvider parameterArrayProvider
      */
+    #[DataProvider('parameterArrayProvider')]
     public function testDeleteDataMultipart($params)
     {
         $this->client->setUri($this->baseuri . 'testRawDeleteData.php');
@@ -450,9 +446,9 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
     /**
      * Test using raw HTTP PUT data
      *
-     * @group ZF-11030
      *
      */
+    #[Group('ZF-11030')]
     public function testRawPutData()
     {
         $data = 'Chuck Norris never wet his bed as a child. The bed wet itself out of fear.';
@@ -466,9 +462,9 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
     /**
      * Test using raw HTTP DELETE data
      *
-     * @group ZF-11030
      *
      */
+    #[Group('ZF-11030')]
     public function testRawDeleteData()
     {
         $data = 'Chuck Norris never wet his bed as a child. The bed wet itself out of fear.';
@@ -509,12 +505,12 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
         $this->client->resetParameters();
         $res = $this->client->request('POST');
 
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             serialize($params),
             $res->getBody(),
             "returned body contains GET or POST parameters (it shouldn't!)"
         );
-        $this->assertContains($headers['X-Foo'], $this->client->getHeader('X-Foo'), 'Header not preserved by reset');
+        $this->assertStringContainsString($headers['X-Foo'], $this->client->getHeader('X-Foo'), 'Header not preserved by reset');
 
         $this->client->resetParameters(true);
         $this->assertNull($this->client->getHeader('X-Foo'), 'Header preserved by reset(true)');
@@ -544,8 +540,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
         $this->client->setParameterGet('cheese', null)->setParameterPost('to', null);
         $res = $this->client->request('POST');
 
-        $this->assertNotContains('cheese', $res->getBody(), 'The "cheese" GET parameter was expected to be unset');
-        $this->assertNotContains('alice', $res->getBody(), 'The "to" POST parameter was expected to be unset');
+        $this->assertStringNotContainsString('cheese', $res->getBody(), 'The "cheese" GET parameter was expected to be unset');
+        $this->assertStringNotContainsString('alice', $res->getBody(), 'The "to" POST parameter was expected to be unset');
     }
 
     /**
@@ -679,8 +675,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
         $this->assertEquals(3, $this->client->getRedirectionsCount(), 'Redirection counter is not as expected');
 
         // Make sure the body does *not* contain the set parameters
-        $this->assertNotContains('swallow', $res->getBody());
-        $this->assertNotContains('Camelot', $res->getBody());
+        $this->assertStringNotContainsString('swallow', $res->getBody());
+        $this->assertStringNotContainsString('Camelot', $res->getBody());
     }
 
     /**
@@ -860,8 +856,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
         $res = $this->client->request();
 
         $this->assertEquals(401, $res->getStatus(), 'Expected HTTP 401 response was not recieved');
-        $this->assertNotContains('alice', $res->getBody(), "Body contains the user name, but it shouldn't");
-        $this->assertNotContains('secret', $res->getBody(), "Body contains the password, but it shouldn't");
+        $this->assertStringNotContainsString('alice', $res->getBody(), "Body contains the user name, but it shouldn't");
+        $this->assertStringNotContainsString('secret', $res->getBody(), "Body contains the password, but it shouldn't");
     }
 
     /**
@@ -878,8 +874,8 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
         $res = $this->client->request();
 
         $this->assertEquals(401, $res->getStatus(), 'Expected HTTP 401 response was not recieved');
-        $this->assertNotContains('alice', $res->getBody(), "Body contains the user name, but it shouldn't");
-        $this->assertNotContains('secret', $res->getBody(), "Body contains the password, but it shouldn't");
+        $this->assertStringNotContainsString('alice', $res->getBody(), "Body contains the user name, but it shouldn't");
+        $this->assertStringNotContainsString('secret', $res->getBody(), "Body contains the password, but it shouldn't");
     }
 
     /**
@@ -1257,9 +1253,7 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
         $this->assertEquals($expect, strlen($response->getBody()));
     }
 
-    /**
-     * @group ZF-10645
-     */
+    #[Group('ZF-10645')]
     public function testPutRequestsHonorSpecifiedContentType()
     {
         $this->client->setUri($this->baseuri . 'ZF10645-PutContentType.php');
@@ -1275,9 +1269,7 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
     }
 
 
-    /**
-     * @group ZF-11418
-     */
+    #[Group('ZF-11418')]
     public function testMultiplePuts()
     {
         $this->client->setUri($this->baseuri . 'ZF10645-PutContentType.php');
@@ -1292,12 +1284,10 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit\Framework\TestCa
         $this->client->setMethod(Zend_Http_Client::PUT);
         $response = $this->client->request();
         $request  = $this->client->getLastRequest();
-        $this->assertNotContains('Content-Type: text/plain', $request);
+        $this->assertStringNotContainsString('Content-Type: text/plain', $request);
     }
 
-    /**
-     * @group ZF-11598
-     */
+    #[Group('ZF-11598')]
     public function testGetAdapterWithoutSet()
     {
         $client  = new Zend_Http_Client(null, $this->config);

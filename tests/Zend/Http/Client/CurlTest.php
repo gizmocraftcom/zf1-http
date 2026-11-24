@@ -19,6 +19,8 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 require_once dirname(__FILE__) . '/CommonHttpTests.php';
 
@@ -40,9 +42,9 @@ require_once dirname(__FILE__) . '/CommonHttpTests.php';
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Client
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_Client')]
 class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
 {
     /**
@@ -111,8 +113,8 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
     /**
      * Check that an exception is thrown when trying to set invalid config
      *
-     * @dataProvider invalidConfigProvider
      */
+    #[DataProvider('invalidConfigProvider')]
     public function testSetConfigInvalidConfig($config)
     {
         $this->expectException(\Zend_Http_Client_Adapter_Exception::class);
@@ -121,10 +123,8 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
     }
 
     /**
-     * CURLOPT_CLOSEPOLICY never worked and returns false on setopt always:
-     * @link http://de2.php.net/manual/en/function.curl-setopt.php#84277
-     *
-     * This should throw an exception.
+     * An unknown cURL option (formerly CURLOPT_CLOSEPOLICY, which never worked and was removed in PHP 8.4)
+     * should throw an exception.
      *
      */
     public function testSettingInvalidCurlOption()
@@ -133,7 +133,7 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
 
         $config = array(
             'adapter'     => 'Zend_Http_Client_Adapter_Curl',
-            'curloptions' => array(CURLOPT_CLOSEPOLICY => true),
+            'curloptions' => array(999999 => true),
         );
         $this->client = new Zend_Http_Client($this->client->getUri(true), $config);
 
@@ -154,8 +154,8 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
         $this->assertEquals(3, $this->client->getRedirectionsCount(), 'Redirection counter is not as expected');
 
         // Make sure the body does *not* contain the set parameters
-        $this->assertNotContains('swallow', $res->getBody());
-        $this->assertNotContains('Camelot', $res->getBody());
+        $this->assertStringNotContainsString('swallow', $res->getBody());
+        $this->assertStringNotContainsString('Camelot', $res->getBody());
     }
 
     /**
@@ -190,9 +190,9 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
     }
 
     /**
-     * @group ZF-3758
      * @link http://framework.zend.com/issues/browse/ZF-3758
      */
+    #[Group('ZF-3758')]
     public function testPutFileContentWithHttpClient()
     {
         // Method 1: Using the binary string of a file to PUT
@@ -208,9 +208,9 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
     }
 
     /**
-     * @group ZF-3758
      * @link http://framework.zend.com/issues/browse/ZF-3758
      */
+    #[Group('ZF-3758')]
     public function testPutFileHandleWithHttpClient()
     {
         $this->client->setUri($this->baseuri . 'testRawPostData.php');
@@ -262,7 +262,7 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
 
         $this->assertEquals(
             array('curloptions' => array('foo' => 'bar', 'bar' => 'baz')),
-            $this->readAttribute($adapter, '_config')
+            (new ReflectionProperty($adapter, '_config'))->getValue($adapter)
         );
     }
 
@@ -288,25 +288,21 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
 
         $this->assertEquals(
             $expected,
-            $this->readAttribute($adapter, '_config')
+            (new ReflectionProperty($adapter, '_config'))->getValue($adapter)
         );
     }
 
-    /**
-     * @group ZF-7040
-     */
+    #[Group('ZF-7040')]
     public function testGetCurlHandle()
     {
         $adapter = new Zend_Http_Client_Adapter_Curl();
         $adapter->setConfig(array('timeout' => 2, 'maxredirects' => 1));
         $adapter->connect('http://framework.zend.com');
 
-        $this->assertIsResource($adapter->getHandle());
+        $this->assertInstanceOf(CurlHandle::class, $adapter->getHandle());
     }
 
-    /**
-     * @group ZF-9857
-     */
+    #[Group('ZF-9857')]
     public function testHeadRequest()
     {
         $this->client->setUri($this->baseuri . 'testRawPostData.php');

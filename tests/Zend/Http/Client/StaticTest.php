@@ -19,7 +19,9 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * This Testsuite includes all Zend_Http_Client tests that do not rely
@@ -32,9 +34,9 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Client
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_Client')]
 class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
 {
     /**
@@ -166,8 +168,8 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
 
     /**
      * Make sure non-strict mode disables header name validation
-     * @doesNotPerformAssertions
      */
+    #[DoesNotPerformAssertions]
     public function testInvalidHeaderNonStrictMode()
     {
         // Disable strict validation
@@ -301,8 +303,8 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
      * Test that when the encodecookies flag is set to FALSE, cookies captured
      * from a response by Zend_Http_CookieJar are not encoded
      *
-     * @group ZF-1850
      */
+    #[Group('ZF-1850')]
     public function testCaptureCookiesNoEncodeZF1850()
     {
         $cookieName  = 'cookieWithSpecialChars';
@@ -392,8 +394,8 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
     /**
      * Test that passing invalid variables to setConfig() causes an exception
      *
-     * @dataProvider      invalidConfigProvider
      */
+    #[DataProvider('invalidConfigProvider')]
     public function testConfigSetInvalid($config)
     {
         $this->expectException(\Zend_Http_Client_Exception::class);
@@ -507,9 +509,9 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
     /**
      * Check that we can set methods which are not documented in the RFC.
      *
-     * @dataProvider validMethodProvider
-     * @doesNotPerformAssertions
      */
+    #[DataProvider('validMethodProvider')]
+    #[DoesNotPerformAssertions]
     public function testSettingExtendedMethod($method)
     {
         try {
@@ -523,8 +525,8 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
      * Check that an exception is thrown if non-word characters are used in
      * the request method.
      *
-     * @dataProvider invalidMethodProvider
      */
+    #[DataProvider('invalidMethodProvider')]
     public function testSettingInvalidMethodThrowsException($method)
     {
         $this->expectException(\Zend_Http_Client_Exception::class);
@@ -571,9 +573,7 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group ZF-4236
-     */
+    #[Group('ZF-4236')]
     public function testFormFileUpload()
     {
         $this->_client->setAdapter('Zend_Http_Client_Adapter_Test');
@@ -593,9 +593,7 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group ZF-4236
-     */
+    #[Group('ZF-4236')]
     public function testClientBodyRetainsFieldOrdering()
     {
         $this->_client->setAdapter('Zend_Http_Client_Adapter_Test');
@@ -644,10 +642,8 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(filesize($bodyFile), (int) $match[1]);
     }
 
-    /**
-     * @group ZF-8057
-     * @doesNotPerformAssertions
-     */
+    #[Group('ZF-8057')]
+    #[DoesNotPerformAssertions]
     public function testSetDisabledAuthBeforSettingUriBug()
     {
         $client = new Zend_Http_Client_StaticTest_Mock();
@@ -658,9 +654,9 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
     /**
      * Testing if the connection isn't closed
      *
-     * @group ZF-9685
-     * @doesNotPerformAssertions
      */
+    #[Group('ZF-9685')]
+    #[DoesNotPerformAssertions]
     public function testOpenTempStreamWithValidFileDoesntThrowsException()
     {
         $url    = 'http://www.example.com';
@@ -681,8 +677,8 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
     /**
      * Testing if the connection can be closed
      *
-     * @group ZF-9685
      */
+    #[Group('ZF-9685')]
     public function testOpenTempStreamWithBogusFileClosesTheConnection()
     {
         $url    = 'http://www.example.com';
@@ -698,9 +694,9 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
     /**
      * Test that we can handle trailing space in location header
      *
-     * @group ZF-11283
      * @link http://framework.zend.com/issues/browse/ZF-11283
      */
+    #[Group('ZF-11283')]
     public function testRedirectWithTrailingSpaceInLocationHeaderZF11283()
     {
         $this->_client->setUri('http://example.com/');
@@ -724,9 +720,7 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('/test', $lastUri->getPath());
     }
 
-    /**
-     * @group ZF-11162
-     */
+    #[Group('ZF-11162')]
     public function testClientDoesNotModifyPassedUri()
     {
         $uri    = Zend_Uri_Http::fromString('http://example.org/');
@@ -734,10 +728,8 @@ class Zend_Http_Client_StaticTest extends PHPUnit\Framework\TestCase
         $client = new Zend_Http_Client($uri);
         $this->assertEquals((string)$orig, (string)$uri);
     }
-    /**
-     * @group ZF-9206
-     * @doesNotPerformAssertions
-     */
+    #[Group('ZF-9206')]
+    #[DoesNotPerformAssertions]
     public function testStreamWarningRewind()
     {
         $httpClient = new Zend_Http_Client();

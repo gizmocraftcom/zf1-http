@@ -19,6 +19,9 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id: JsonTest.php 12081 2008-10-22 19:07:55Z norm2782 $
  */
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Group;
 
 require_once dirname(__FILE__) . '/TestAsset/TestPluginLoader.php';
 require_once dirname(__FILE__) . '/TestAsset/DesktopDevice.php';
@@ -31,9 +34,9 @@ require_once dirname(__FILE__) . '/TestAsset/PopulatedStorage.php';
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_UserAgent
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_UserAgent')]
 class Zend_Http_UserAgentTest extends PHPUnit\Framework\TestCase
 {
     protected $server;
@@ -284,9 +287,7 @@ class Zend_Http_UserAgentTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider invalidConfigs
-     */
+    #[DataProvider('invalidConfigs')]
     public function testSettingConfigWithInvalidTypeRaisesException($arg)
     {
         $this->expectException('Zend_Http_UserAgent_Exception');
@@ -308,9 +309,7 @@ class Zend_Http_UserAgentTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($this->server['os'], $ua->getServerValue('os'));
     }
 
-    /**
-     * @dataProvider invalidConfigs
-     */
+    #[DataProvider('invalidConfigs')]
     public function testSettingServerWithInvalidTypeRaisesException($arg)
     {
         $this->expectException('Zend_Http_UserAgent_Exception');
@@ -347,9 +346,7 @@ class Zend_Http_UserAgentTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider invalidLoaders
-     */
+    #[DataProvider('invalidLoaders')]
     public function testSpecifyingInvalidTypeToPluginLoaderRaisesException($arg)
     {
         $ua = new Zend_Http_UserAgent();
@@ -565,10 +562,8 @@ class Zend_Http_UserAgentTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('data', $storage->getMember());
     }
 
-    /**
-     * @group ZF-10595
-     * @doesNotPerformAssertions
-     */
+    #[Group('ZF-10595')]
+    #[DoesNotPerformAssertions]
     public function testAGroupDefinedAndSerialized()
     {
         $config    = $this->config;
@@ -580,10 +575,8 @@ class Zend_Http_UserAgentTest extends PHPUnit\Framework\TestCase
         $groups    = $device->getAllGroups();
     }
 
-    /**
-     * @group ZF-10665
-     * @doesNotPerformAssertions
-     */
+    #[Group('ZF-10665')]
+    #[DoesNotPerformAssertions]
     public function testDontDieOnSerialization()
     {
         $config    = $this->config;

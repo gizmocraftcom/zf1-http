@@ -19,7 +19,8 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Zend_Http_Response unit tests
@@ -29,9 +30,9 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Response
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_Response')]
 class Zend_Http_ResponseTest extends PHPUnit\Framework\TestCase
 {
     public function setUp(): void
@@ -146,9 +147,7 @@ class Zend_Http_ResponseTest extends PHPUnit\Framework\TestCase
         $this->assertFalse($response->isRedirect(), 'Response is an error, but isRedirect() returned true');
     }
 
-    /**
-     * @group ZF-5520
-     */
+    #[Group('ZF-5520')]
     public function test302LocationHeaderMatches()
     {
         $headerName  = 'Location';
@@ -320,8 +319,8 @@ class Zend_Http_ResponseTest extends PHPUnit\Framework\TestCase
     /**
      * Test that headers are properly set when passed to the constructor as an associative array
      *
-     * @group ZF-10277
      */
+    #[Group('ZF-10277')]
     public function testConstructorWithHeadersAssocArray()
     {
         $response = new Zend_Http_Response(
@@ -340,8 +339,8 @@ class Zend_Http_ResponseTest extends PHPUnit\Framework\TestCase
      * Test that headers are properly parsed when passed to the constructor as an indexed array
      *
      * @link  http://framework.zend.com/issues/browse/ZF-10277
-     * @group ZF-10277
      */
+    #[Group('ZF-10277')]
     public function testConstructorWithHeadersIndexedArrayZF10277()
     {
         $response = new Zend_Http_Response(
@@ -361,8 +360,8 @@ class Zend_Http_ResponseTest extends PHPUnit\Framework\TestCase
      * an indexed array with no whitespace after the ':' sign
      *
      * @link  http://framework.zend.com/issues/browse/ZF-10277
-     * @group ZF-10277
      */
+    #[Group('ZF-10277')]
     public function testConstructorWithHeadersIndexedArrayNoWhitespace()
     {
         $response = new Zend_Http_Response(
@@ -408,10 +407,8 @@ class Zend_Http_ResponseTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @group ZF2015-04
-     * @dataProvider invalidResponseHeaders
-     */
+    #[Group('ZF2015-04')]
+    #[DataProvider('invalidResponseHeaders')]
     public function testExtractHeadersRaisesExceptionWhenDetectingCRLFInjection($message)
     {
         $this->expectException('Zend_Http_Exception');
@@ -419,9 +416,7 @@ class Zend_Http_ResponseTest extends PHPUnit\Framework\TestCase
         Zend_Http_Response::extractHeaders($message);
     }
 
-    /**
-     * @group 587
-     */
+    #[Group('587')]
     public function testExtractHeadersShouldAllowAnyValidHttpHeaderToken()
     {
         $response = $this->readResponse('response_587');
@@ -431,9 +426,7 @@ class Zend_Http_ResponseTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(0, $headers['zipi.step']);
     }
 
-    /**
-     * @group 587
-     */
+    #[Group('587')]
     public function testExtractHeadersShouldAllowHeadersWithEmptyValues()
     {
         $response = $this->readResponse('response_587_empty');
@@ -443,9 +436,7 @@ class Zend_Http_ResponseTest extends PHPUnit\Framework\TestCase
         $this->assertEmpty($headers['imagetoolbar']);
     }
 
-    /**
-     * @group 587
-     */
+    #[Group('587')]
     public function testExtractHeadersShouldAllowHeadersWithMissingValues()
     {
         $response = $this->readResponse('response_587_null');

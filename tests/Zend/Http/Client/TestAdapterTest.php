@@ -19,7 +19,9 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Exercises Zend_Http_Client_Adapter_Test
@@ -29,9 +31,9 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Client
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_Client')]
 class Zend_Http_Client_TestAdapterTest extends PHPUnit\Framework\TestCase
 {
     /**
@@ -70,33 +72,25 @@ class Zend_Http_Client_TestAdapterTest extends PHPUnit\Framework\TestCase
         $this->adapter->setConfig('foo');
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testSetConfigReturnsQuietly()
     {
         $this->adapter->setConfig(array('foo' => 'bar'));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testConnectReturnsQuietly()
     {
         $this->adapter->connect('http://foo');
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testCloseReturnsQuietly()
     {
         $this->adapter->close();
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testFailRequestOnDemand()
     {
         $this->adapter->setNextRequestWillFail(true);
@@ -141,8 +135,8 @@ class Zend_Http_Client_TestAdapterTest extends PHPUnit\Framework\TestCase
     /**
      * Test that responses could be added as strings
      *
-     * @dataProvider validHttpResponseProvider
      */
+    #[DataProvider('validHttpResponseProvider')]
     public function testAddResponseAsString($testResponse)
     {
         $this->adapter->read(); // pop out first response
@@ -155,8 +149,8 @@ class Zend_Http_Client_TestAdapterTest extends PHPUnit\Framework\TestCase
      * Test that responses could be added as objects (ZF-7009)
      *
      * @link http://framework.zend.com/issues/browse/ZF-7009
-     * @dataProvider validHttpResponseProvider
      */
+    #[DataProvider('validHttpResponseProvider')]
     public function testAddResponseAsObject($testResponse)
     {
         $this->adapter->read(); // pop out first response
@@ -209,9 +203,7 @@ class Zend_Http_Client_TestAdapterTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group ZF-11599
-     */
+    #[Group('ZF-11599')]
     public function testGetConfig()
     {
         $this->assertNotNull($this->adapter->getConfig());

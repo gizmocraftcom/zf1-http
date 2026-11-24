@@ -18,7 +18,7 @@
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @category   Zend
@@ -21990,9 +21990,7 @@ audio/vnd.qcelp, application/xhtml+xml'
         $this->assertTrue(Zend_Http_UserAgent_Validator::match($userAgent, array('HTTP_USER_AGENT' => $userAgent)));
     }
 
-    /**
-     * @group ZF-11557
-     */
+    #[Group('ZF-11557')]
     public function testMatchingIpadUserAgentShouldNotResultInNotices()
     {
         $userAgent    = 'Mozilla/5.0 (iPad; U; CPU OS 4_3_3 like Mac OS X; de-de) AppleWebKit/533.17.9 (KHTML, like Gecko)';
@@ -22000,9 +21998,7 @@ audio/vnd.qcelp, application/xhtml+xml'
         $this->assertEquals('AppleWebKit', $capabilities['browser_name']);
     }
 
-    /**
-     * @group ZF-11557
-     */
+    #[Group('ZF-11557')]
     public function testMatchingMacSafariUserAgentShouldNotResultInNotices()
     {
         $userAgent    = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_5; de-de) AppleWebKit/533.18.1 (KHTML, like Gecko)';
@@ -22010,9 +22006,7 @@ audio/vnd.qcelp, application/xhtml+xml'
         $this->assertEquals('AppleWebKit', $capabilities['browser_name']);
     }
 
-    /**
-     * @group ZF-11815
-     */
+    #[Group('ZF-11815')]
     public function testUserAgentAppleCoreMediaForIphoneShouldNotResultInNotices()
     {
         $userAgent    = 'AppleCoreMedia/1.0.0.8L1 (iPhone; U; CPU OS 4_3_5 like Mac OS X; de_de)';
@@ -22020,9 +22014,7 @@ audio/vnd.qcelp, application/xhtml+xml'
         $this->assertEquals('AppleCoreMedia', $capabilities['browser_name']);
     }
 
-    /**
-     * @group ZF-11749
-     */
+    #[Group('ZF-11749')]
     public function testUserAgentAppleWebKit53446WithoutLanguageShouldNotResultInNotices()
     {
         $userAgent    = 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A5313e Safari/7534.48.3';
@@ -22030,9 +22022,7 @@ audio/vnd.qcelp, application/xhtml+xml'
         $this->assertEquals('Safari Mobile', $capabilities['browser_name']);
     }
 
-    /**
-     * @group ZF-11693
-     */
+    #[Group('ZF-11693')]
     public function testShortMozillaUserAgentShouldNotResultInNotices()
     {
         $userAgent    = 'Mozilla/3.0 (compatible)';
@@ -22040,9 +22030,7 @@ audio/vnd.qcelp, application/xhtml+xml'
         $this->assertEquals('Mozilla', $capabilities['browser_name']);
     }
 
-    /**
-     * @group ZF-11857
-     */
+    #[Group('ZF-11857')]
     public function testOperaOnHtcHd2UserAgentShouldNotResultInNotices()
     {
         $userAgent    = 'HTC_HD2_T8585 Opera/9.7 (Windows NT 5.1; U; de)';
@@ -22050,9 +22038,7 @@ audio/vnd.qcelp, application/xhtml+xml'
         $this->assertEquals('Opera', $capabilities['browser_name']);
     }
 
-    /**
-     * @group GH-550
-     */
+    #[Group('GH-550')]
     public function testOnlyBrowserNameShouldNotResultInNotices()
     {
         $userAgent    = 'Mozilla';

@@ -19,7 +19,8 @@
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @category   Zend
@@ -27,9 +28,9 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Http
- * @group      Zend_Http_Header
  */
+#[Group('Zend_Http')]
+#[Group('Zend_Http_Header')]
 class Zend_Http_Header_HeaderValueTest extends PHPUnit\Framework\TestCase
 {
     /**
@@ -52,10 +53,8 @@ class Zend_Http_Header_HeaderValueTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider getFilterValues
-     * @group ZF2015-04
-     */
+    #[DataProvider('getFilterValues')]
+    #[Group('ZF2015-04')]
     public function testFiltersValuesPerRfc7230($value, $expected)
     {
         $this->assertEquals($expected, Zend_Http_Header_HeaderValue::filter($value));
@@ -78,10 +77,8 @@ class Zend_Http_Header_HeaderValueTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider validateValues
-     * @group ZF2015-04
-     */
+    #[DataProvider('validateValues')]
+    #[Group('ZF2015-04')]
     public function testValidatesValuesPerRfc7230($value, $assertion)
     {
         $this->{$assertion}(Zend_Http_Header_HeaderValue::isValid($value));
@@ -103,10 +100,8 @@ class Zend_Http_Header_HeaderValueTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider assertValues
-     * @group ZF2015-04
-     */
+    #[DataProvider('assertValues')]
+    #[Group('ZF2015-04')]
     public function testAssertValidRaisesExceptionForInvalidValue($value)
     {
         $this->expectException('Zend_Http_Header_Exception_InvalidArgumentException');
