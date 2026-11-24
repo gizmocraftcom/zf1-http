@@ -50,7 +50,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
     /**
      * The curl session handle
      *
-     * @var resource|null
+     * @var CurlHandle|null
      */
     protected $_curl = null;
 
@@ -408,7 +408,13 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
         if (isset($this->_config['curloptions'])) {
             foreach ((array)$this->_config['curloptions'] as $k => $v) {
                 if (!in_array($k, $this->_invalidOverwritableCurlOptions)) {
-                    if (curl_setopt($this->_curl, $k, $v) == false) {
+                    try {
+                        $accepted = curl_setopt($this->_curl, $k, $v);
+                    } catch (ValueError $e) {
+                        // PHP 8 throws for option numbers cURL does not know
+                        $accepted = false;
+                    }
+                    if ($accepted == false) {
                         throw new Zend_Http_Client_Exception(sprintf("Unknown or erroreous cURL option '%s' set", $k));
                     }
                 }
@@ -471,9 +477,8 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
      */
     public function close()
     {
-        if (is_resource($this->_curl)) {
-            curl_close($this->_curl);
-        }
+        // curl_close() is deprecated since PHP 8.5 and has no effect since PHP 8.0: the handle is freed
+        // as soon as the last reference to it is gone.
         $this->_curl         = null;
         $this->_connected_to = array(null, null);
     }
@@ -481,7 +486,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
     /**
      * Get cUrl Handle
      *
-     * @return resource
+     * @return CurlHandle|null
      */
     public function getHandle()
     {
