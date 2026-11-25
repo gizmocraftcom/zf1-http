@@ -1,7 +1,6 @@
 # Zend Framework 1 - Http
 
 [![Build](https://github.com/gizmocraftcom/zf1-http/workflows/Build/badge.svg?event=push)](https://github.com/gizmocraftcom/zf1-http/actions?query=workflow%3ABuild+event%3Apush)
-[![codecov](https://codecov.io/gh/gizmocraftcom/zf1-http/branch/master/graph/badge.svg)](https://codecov.io/gh/gizmocraftcom/zf1-http)
 [![Latest Stable Version](https://poser.pugx.org/gizmocraft/zendframework1-http/v/stable)](https://packagist.org/packages/gizmocraft/zendframework1-http)
 [![Total Downloads](https://poser.pugx.org/gizmocraft/zendframework1-http/downloads)](https://packagist.org/packages/gizmocraft/zendframework1-http)
 [![License](https://poser.pugx.org/gizmocraft/zendframework1-http/license)](https://packagist.org/packages/gizmocraft/zendframework1-http)
